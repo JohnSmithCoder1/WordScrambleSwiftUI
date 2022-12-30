@@ -63,6 +63,16 @@ struct ContentView: View {
             return
         }
         
+        guard isDifferentFromRoot(word: answer) else {
+            wordError(title: "Same as root", message: "You can't just use the same exact word!")
+            return
+        }
+        
+        guard hasThreeOrMoreLetters(word: answer) else {
+            wordError(title: "Too short", message: "Only words that are three letters or more count!")
+            return
+        }
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
@@ -106,6 +116,14 @@ struct ContentView: View {
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         
         return misspelledRange.location == NSNotFound
+    }
+    
+    func isDifferentFromRoot(word: String) -> Bool {
+        return word != rootWord
+    }
+    
+    func hasThreeOrMoreLetters(word: String) -> Bool {
+        return word.count >= 3
     }
     
     func wordError(title: String, message: String) {
