@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var usedWords = [String]()
     @State private var rootWord = ""
     @State private var newWord = ""
+    @State private var score = 0
     
     @State private var errorTitle = ""
     @State private var errorMessage = ""
@@ -19,6 +20,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
+                Text("Score: \(score)")
                 Section {
                     TextField("Enter your word", text: $newWord)
                         .autocapitalization(.none)
@@ -33,6 +35,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .listStyle(.grouped)
             .navigationTitle(rootWord)
             .onSubmit(addNewWord)
             .onAppear(perform: startGame)
@@ -77,6 +80,7 @@ struct ContentView: View {
             usedWords.insert(answer, at: 0)
         }
         
+        score += newWord.count
         newWord = ""
     }
     
